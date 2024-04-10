@@ -1,0 +1,30 @@
+/* Colors: */
+/* header grey: #D9D9D9 */
+/* barely see beige: #F8F7F5 */
+
+/* Fonts */
+/* titles: Bowlby One */
+/* other: Mallanna */
+
+:root {
+  --title: "Bowlby One", sans-serif;
+  --text: "Mallanna", sans-serif;
+  --headerGrey: #D9D9D9;
+  --orange: #cc8245;
+  --green: #8eaf67;
+}
+
+#root{
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: var(--text);
+}
+
+.content{
+  flex-grow: 1; 
+}
+
+header, footer{
+  background-color: var(--headerGrey);
+}
