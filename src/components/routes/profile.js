@@ -1,4 +1,6 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import axios from "axios";
+
 //components
 import ProfileDetails from "./profileDetails";
 import ProfileEdit from "./profileEdit";
@@ -6,14 +8,22 @@ import ProfileWishlist from "./profileWishlist";
 import ProfileOrders from "./profileOrders";
 
 export default function Profile(){
-
+    const [dbData, setDbData] = useState([]);
     const [profileOption, setProfileOption] = useState('details');
+    let displayDetails;
+    let editableDetails;
+    let interests;
 
-    // function handlePushState(where){
-    //     const url = `${window.location.pathname}/${where}`
-    //     history.pushState(null,null, url);
-    // }
-
+    useEffect(() => {
+        const id = localStorage.getItem("Marketfy_ActiveUser");
+        const url = `http://localhost:8080/userDetails?id=${id}`
+        axios.get(url)
+        .then( response => {
+            console.log("Response Data: ", response.data);
+            setDbData(response.data)
+        })
+        
+    }, []);
 
     return (
         <div>
@@ -28,9 +38,10 @@ export default function Profile(){
             </div>
             <div>
                 {profileOption === 'details' ?
-                    <ProfileDetails></ProfileDetails> 
+                    <ProfileDetails dbData={dbData}
+                    onClick={()=>setProfileOption('edit')}></ProfileDetails> 
                 : profileOption === 'edit' ? 
-                    <ProfileEdit></ProfileEdit>
+                    <ProfileEdit dbData={dbData.slice(1)}></ProfileEdit>
                 : profileOption === 'wishlist' ?
                     <ProfileWishlist></ProfileWishlist>
                 : profileOption === 'orders' &&

@@ -1,6 +1,6 @@
 
 
-// inputs: name, id, type, onblur
+// inputs: name, id, type, onblur, value, placeholder
 export default function FormInput(props){
 
     // const style={
@@ -19,8 +19,9 @@ export default function FormInput(props){
                 <input 
                 name={props.id}
                 id={props.id}
+                defaultValue={props.value}
                 onBlur={props.onblur}
-                placeholder={props.name} 
+                placeholder={props.placeholder || props.name} 
                 type={props.type}></input>
             </div>
             {props.children}

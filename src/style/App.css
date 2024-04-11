@@ -28,3 +28,21 @@
 header, footer{
   background-color: var(--headerGrey);
 }
+
+.notification{
+  border-radius: 50%;
+  background-color: var(--orange);
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  width: 2vw;
+  height: 2vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2%;
+
+
+
+}

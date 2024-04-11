@@ -8,13 +8,19 @@ export default function Header(){
         <header>
             <h1 className="title" >MARKETFY</h1>
 
-            <div style={{position:"relative"}} >
+            <div style={{display:"flex", justifyContent: "space-evenly"}} >
+
+                <Link to='/profile' className="HeaderLink" >Profile</Link>
+
+                <div style={{position:"relative"}}>
+                    <Link to='/cart' className="HeaderLink" style={{marginRight:"2vw"}} >Cart</Link>
+                    {cartLength>0 && <div className="notification">{cartLength}</div>}
+
+                </div>
 
                 <Link to='/' className="HeaderLink" >Shop</Link>
 
-                {cartLength>0 && <div className="notification">{cartLength}</div>}
-
-                <Link to='/cart' className="HeaderLink" style={{marginRight:"2vw"}} >Cart</Link>
+                
             </div>
         </header>
     )

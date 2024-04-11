@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import { convert2Book } from "../../utils/utils";
 import BrowseCard from "../reusable/browseCard";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { handleDeletefromWishlist } from "../../utils/utils";
 
 export default function ProfileWishlist(){
 
@@ -10,28 +12,35 @@ export default function ProfileWishlist(){
 
     useEffect(() => {
         const id = localStorage.getItem("Marketfy_ActiveUser");
-        const url = `http://localhost:8080/wishlistByUser?id=${id}`
+        const url = `http://localhost:8080/productsInWishlistByUserId?id=${id}`
+
         axios.get(url)
         .then( response => {
             console.log("Response Data: ", response.data);
-            setDbData(convert2Book(response.data))
+            setDbData(response.data)
             // setDbData(addQtytoData(response.data, cartObj))
+        }).catch(function (error){
+            console.log("eeeeeeeeeeerrorrrrrrrrrr")
+            setDbData([]);
         })
         
     }, []);
 
-    console.log("vetga", dbData);
     return (
         <>
         <h1>Wishlist</h1>
         
         {dbData.length>0?
             <div style={{display:"flex"}} >
-            {dbData.map((book, index)=>
-            <>
-            <button>x</button>
-            <BrowseCard book={book} key={index}></BrowseCard>
-            </>
+            {dbData.map((book)=>
+            <div key={book.productId}>
+            <button
+            onClick={()=>handleDeletefromWishlist(book.wishlistId, dbData, setDbData)}
+            >
+                <FontAwesomeIcon icon={faTrash} size={"xs"} />
+            </button>
+            <BrowseCard book={book.product}></BrowseCard>
+            </div>
             )}
             </div>
         : 

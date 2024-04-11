@@ -1,4 +1,6 @@
 import { cartActions } from "../store";
+import axios from "axios";
+
 
 // export function getCookie(name) {
 //     const cookieValue = document.cookie.match('(^|;)\\s*' + name + '\\s*=\\s*([^;]+)');
@@ -97,22 +99,6 @@ export function addQtytoData(dbData, cartObj) {
 }
 
 //-----------------------------
-// DEV convert array into object of type book 
-export function convert2Book(array) {
-    return array.map((arr) => {
-        const book = {
-            product_id: arr[0],
-            title: arr[1],
-            author: arr[2],
-            price: arr[3],
-            image: arr[4],
-            synopsis: arr[5],
-            inventory: arr[6]
-        };
-        return book;
-    });
-}
-
 //DEV convert array to object details 
 export function convert2Details(array) {
     return array.map((arr) => {
@@ -128,3 +114,79 @@ export function convert2Details(array) {
         return book;
     });
 }
+
+// ---------------------------
+// wishhh
+export function add2Wishlist(productId){
+    const id = localStorage.getItem("Marketfy_ActiveUser");
+    if (!id|| id==false){
+        console.log("building.....")
+
+    } else {
+        const url = "http://localhost:8080/wishlistItems";
+        const wishItem = {
+            "userId": id,
+            "productId": productId
+        }
+        axios.post(url,wishItem)
+        .then( response =>{
+            console.log("Response Data: ", response);
+        })
+    }
+}
+
+export function handleDeletefromWishlist(id, dbData, setDbData){
+    const url = `http://localhost:8080/wishlistItems/${id}`
+    axios.delete(url)
+    .then( response => {
+        console.log("Response Data: ", response);
+    })
+    setDbData((dbData)=>dbData.filter((item)=>item.wishlistId != id));
+}
+
+// ----------- 
+export function validateRawCart(arr, dispatch) {
+    if (Array.isArray(arr)) {
+        // at least one non-zero integer?
+        const nonZeroInteger = arr.some(item => Number.isInteger(item) && item !== 0);
+        if (nonZeroInteger) {
+            // remove non-integer values and zeros
+            const cleanedArray = arr.filter(item => Number.isInteger(item) && item !== 0);
+            // set cart redux 
+            dispatch(cartActions.setCart(cleanedArray));
+            // set cart local
+            localStorage.setItem("Marketfy_Cart", cleanedArray);
+            return true;
+        } else {
+            console.log("cart is empty")
+            // set cart redux 
+            const empty = [];
+            dispatch(cartActions.setCart([]));
+            // set cart local
+            localStorage.removeItem("Marketfy_Cart");
+            return false; 
+        }
+    } else {
+        return false; 
+    }    
+}
+
+//------------------------------------
+// export function orderGeneration(){
+//     order = {
+//         userid: 1,
+//         totalItems: 3, 
+//         items: [
+//             {
+//                 bookid: 1,
+//                 qty: 3
+//             }, 
+//             {
+//                 bookid: 1,
+//                 qty: 3
+//             }
+//         ],
+//         total: 220, 
+//         generation: "today"
+//     }
+// }

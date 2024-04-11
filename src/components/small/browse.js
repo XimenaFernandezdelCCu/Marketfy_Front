@@ -1,27 +1,41 @@
 import { useEffect, useContext, useState } from "react";
 import { HomeContext } from "../../context/homeContext";
 import axios, { all } from "axios";
-import { paginationArray } from "../../utils/utils";
+import { paginationArray, add2Wishlist } from "../../utils/utils";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart, faCartPlus} from '@fortawesome/free-solid-svg-icons';
 //components
 import Searchbar from "../reusable/searchbar";
 import Pagination from "../reusable/pagination";
 import BrowseCard from "../reusable/browseCard";
+import Loader from "../reusable/loader";
 
 export default function Browse(){
     console.log("browse")
     const {data, setData, page, setFound}= useContext(HomeContext);
     const [dbData, setDbData]= useState([]);
     const url = "http://localhost:8080/products";
+    const [error, setError] = useState(false);
+    const [loading, setLoading ] = useState(false);
 
     useEffect(() => {
+        setLoading(true)
         axios.get(url)
         .then( response => {
-                console.log("Response Data: ", response.data);
-                setDbData(response.data);
-                setFound(response.data.length);
-                setData(paginationArray(response.data.sort(()=>Math.random()-.5)))
+            setLoading(false)
+            console.log("Response Data: ", response.data);
+            setDbData(response.data);
+            setFound(response.data.length);
+            setData(paginationArray(response.data.sort(()=>Math.random()-.5)))
+        }).catch(function (error){
+            setLoading(false)
+            console.log("----------------", error);
+            setError(error.message);
+
         })
+
     }, []);
+
 
     /*because this is a small app, i will fetch all products data 
     and filter in the front. But if the data was extensive, i would 
@@ -55,28 +69,46 @@ export default function Browse(){
         }
         setData(paginationArray(filtered));
     }
-    console.log("---data", data)
+
+    
+
     return (
         <>
             <Searchbar returnThis={getData}></Searchbar>
 
             <Pagination></Pagination>
 
+
             <div style={{
             borderStyle: "solid", 
             display: "flex", 
             flexWrap: "wrap"}}>
 
-            {data[0] ?
-                data[page].map((book, index)=>
-                <BrowseCard book={book} key={index}></BrowseCard>
-                )
+                {loading ? 
+                    <Loader></Loader>
                 :
-                <div>
-                    <h2>Uh oh!</h2>
-                    <h4>Your search didn't match any items.<br /> Please try again. </h4>
-                </div>
-            }
+                error != false ? 
+                    <>
+                    <h1>Error</h1>
+                    </>
+                : data[0] ?
+                    data[page].map((book, index)=>
+                        <BrowseCard book={book} key={book.productId}>
+                            <button
+                            onClick={()=>add2Wishlist(book.productId)}
+                            >
+                                <FontAwesomeIcon icon={faHeart} />
+                            </button>
+
+                        </BrowseCard>
+                    )
+                    :
+                    <div>
+                        <h2>Uh oh!</h2>
+                        <h4>Your search didn't match any items.<br /> Please try again. </h4>
+                    </div>
+                }
+
             </div>
 
 

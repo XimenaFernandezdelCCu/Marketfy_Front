@@ -12,12 +12,14 @@ export default function Detail(props){
 
     return(
         <div>
-            <div className="formInput" >
+            <div 
+            // style={{display:"flex"}}
+             >
                 <label htmlFor={props.id}>
                     <h4>{props.name}</h4>
                 </label>
 
-                <h4>{props.value}</h4>
+                <p>{props.value}</p>
                 {/* <input 
                 name={props.id}
                 id={props.id}

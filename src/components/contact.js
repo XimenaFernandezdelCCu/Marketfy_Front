@@ -29,6 +29,7 @@ export default function Contact() {
 
     return (
         <div>
+            <hr/>
             <h2>Contact Us</h2>
             <form onSubmit={handleSubmit}>
                 <div>
