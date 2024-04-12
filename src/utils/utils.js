@@ -36,18 +36,13 @@ export function add2Cart(id, dispatch){
 }
 
 export function removeFromCart(id, dispatch){
-    console.log("remove")
     let cart=[];
     let existing = localStorage.getItem("Marketfy_Cart");
     console.log("Existing", existing);
     
     if(existing != null && existing.includes(id)){
-      
-            console.log("id", id)
             const existingArr = existing.split(',').map(Number);
-            console.log("existing: ", existingArr);
             const index = existingArr.indexOf(id)
-            console.log("index: ", index);
             existingArr.splice(index,1);
             cart = existingArr;
         
@@ -81,6 +76,12 @@ export function countOccurrences(arr) {
 
     return result;
 };
+
+export function emptyCart(dispatch){
+    console.log("emptying")
+    localStorage.removeItem("Marketfy_Cart");
+    dispatch(cartActions.removeAllFromCart());
+}
 
 // adds the field Qty and ItemTotal to the books array 
 export function addQtytoData(dbData, cartObj) {
@@ -169,6 +170,11 @@ export function validateRawCart(arr, dispatch) {
     } else {
         return false; 
     }    
+}
+
+// remove non-integer values and zeros
+export function cleanRawCart(arr){
+    return arr.filter(item => Number.isInteger(item) && item !== 0);
 }
 
 //------------------------------------

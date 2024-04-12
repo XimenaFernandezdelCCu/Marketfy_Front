@@ -1,11 +1,25 @@
 import FormInput from "../reusable/formInput"
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import {useState, useEffect} from "react";
 
 
-export default function ProfileEdit({dbData}){
+export default function ProfileEdit(){
     const navigate = useNavigate();
-    const detailName = ["First Name", "Last Name", "Preferred Name", "Bio", "Interest Tags"]
+    const detailName = ["First Name", "Last Name", "Preferred Name", "Bio", "Interest Tags"];
+    const [dbData, setDbData] = useState([]);
+    
+    useEffect(() => {
+        const id = localStorage.getItem("Marketfy_ActiveUser");
+        if (!isNaN(id) && id !== 0){
+            const url = `http://localhost:8080/userDetails?id=${id}`
+        axios.get(url)
+        .then( response => {
+            console.log("Response Data: ", response.data);
+            setDbData(response.data.slice(1))
+        })
+        }  
+    }, []);
     
     function handleEditDetails(event){
         event.preventDefault();
@@ -28,7 +42,7 @@ export default function ProfileEdit({dbData}){
             //     localStorage.setItem("Marketfy_ActiveUser", response.data);
             //     navigate('/');
             // }
-            navigate(0);
+            navigate('/profile/');
         }).catch(error => {
             console.error("Oh no!", error)
         }); 

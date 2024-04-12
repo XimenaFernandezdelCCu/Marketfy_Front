@@ -1,30 +1,33 @@
 
 import { useAxiosPost } from "../../hooks/useAxiosPost";
+import { Link } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { createAccountAction } from "../../utils/responseActions";
+
 //components
 import FormInput from "../reusable/formInput"
 
 export default function SignupForm() {
-
     const { fetchData, loading, data, error } = useAxiosPost();
-    const url = 'http://localhost:8080/register';
+    const url = 'http://localhost:8080/users';
 
     function handleSignup(event) {
         event.preventDefault();
         //  Retrieve User Input: 
         const formData = new FormData(event.target);
+        const email = formData.get('signupEmail');
+        const password = formData.get('signupPass');
         const newUser = {
-            email: formData.get('signupEmail'),
-            pass: formData.get('signupPass'),
+            email: email,
+            pass: password,
             first: formData.get('signupFirst'),
             last: formData.get('signupLast'),
+            role: "user",
+            active: false
         }
         //Send request
-        const fecthResult = fetchData(url, newUser);
-
-
-
-
-
+        fetchData(url, newUser, createAccountAction);
+        // navigate('/auth/extraDetails')
     }
 
     return (
@@ -103,6 +106,14 @@ export default function SignupForm() {
                     Create Account
                 </button>
             </form>
+
+            <div>
+                <p>
+                    <strong>Already have an account?</strong>
+                    <Link to='/auth/' className="HeaderLink" >Login</Link>
+                </p>
+
+            </div>
             {/* {!createAccount ?   */}
 
             {/* // :

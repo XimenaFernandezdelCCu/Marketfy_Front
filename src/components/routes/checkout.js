@@ -1,12 +1,25 @@
+import { useContext } from "react"
+import { CartContext } from "../../context/cartContext";
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch } from "react-redux"
+import { emptyCart } from "../../utils/utils";
 
+
+
+//components
+import OrderDetails from "../small/orderDetails";
 import Payment from "../small/payment";
 import Shipping from "../small/shipping";
 import Loader from "../reusable/loader";
 import { useState } from "react";
 import '../../style/modal.css'
 
-export default function Checkout({total, setCheckout}) {
+export default function Checkout() {
     const [loader, setLoader]= useState(false);
+    const {total, setCheckout, cartObj, cartLength}= useContext(CartContext);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
 
     function showLoader() {
@@ -14,13 +27,69 @@ export default function Checkout({total, setCheckout}) {
         const timeout = setTimeout(() => {
             setLoader(false);
         }, 4000);
+        
 
         return () => clearTimeout(timeout);
     }
 
-    
-    
+    function generateOrder() {
+        showLoader()
+        const id = localStorage.getItem("Marketfy_ActiveUser");
 
+        if (!isNaN(id) && id !== 0){
+            const url = "http://localhost:8080/orders";
+            const order = {
+                userId: id,
+                totalItems: cartLength,
+                total: total,
+                orderDate: new Date().toISOString()
+            }
+            console.log("order-- ", JSON.stringify(order));
+            axios.post(url, order)
+            .then(response => {
+                console.log("Response: ", response);
+                const newOrderLink = response.data._links.order.href;
+                const newOrderID = newOrderLink.split("/").pop();
+                console.log(newOrderID);
+                addItems2Order(newOrderID);
+                // if (response.status == 200){
+                //     localStorage.setItem("Marketfy_ActiveUser", response.data);
+                //     navigate('/');
+                // }
+            }).catch(error => {
+                console.error("Oh no!", error)
+            }); 
+
+            
+            
+        }
+    }
+
+    function addItems2Order(orderId){
+        const url = "http://localhost:8080/AddOrderItems";
+        const orderItems = {
+            orderId: orderId, 
+            items: cartObj.map((it)=>{return {
+                productId: it.id,
+                qty: it.qty
+            }})
+        }
+        axios.post(url, orderItems)
+        .then(response => {
+            console.log("Response: ", response);
+            emptyCart(dispatch)
+            // navigate('/profile/orders');
+            window.location.href="/profile/orders"
+            // navigate('/');
+            // if (response.status == 200){
+            //     localStorage.setItem("Marketfy_ActiveUser", response.data);
+            // }
+        }).catch(error => {
+            console.error("Oh no!", error)
+        });
+        
+    }
+    
     return (
         <div>
             
@@ -28,19 +97,6 @@ export default function Checkout({total, setCheckout}) {
             <button
             onClick={() => setCheckout(false)}
             >Back to Cart</button>
-
-            <div>
-                <h2>Order Details</h2>
-                <ul>
-                    <li>name's order</li>
-                    <li>3 Items</li>
-
-                    <li>carts items map 
-                    </li>
-
-                    <li>total</li>
-                </ul>
-            </div>
 
             <div style={{
                 position:"relative", 
@@ -60,7 +116,7 @@ export default function Checkout({total, setCheckout}) {
                         display:"flex", 
                         alignItems: "center", 
                         justifyContent: "center"
-                
+            
 
                     }}
                     >
@@ -70,11 +126,13 @@ export default function Checkout({total, setCheckout}) {
                     </div>
                 }
 
-                <div>
+                <OrderDetails></OrderDetails>
+
+                {/* <div>
                     <h4>Confirm your contact Info</h4>
                     <p>Provide a phone</p>
                     <hr />
-                </div>
+                </div> */}
 
                 <Payment></Payment>
                 <Shipping></Shipping>
@@ -82,11 +140,9 @@ export default function Checkout({total, setCheckout}) {
             </div>
 
             <button
-            onClick={showLoader}
+            onClick={generateOrder}
             >PAY {total}</button>
-                
-
-                
+                     
         </div>
     )
 }

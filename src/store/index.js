@@ -1,36 +1,41 @@
 import {createSlice, configureStore} from '@reduxjs/toolkit'
-import { countOccurrences } from '../utils/utils';
 
-// const authSlice = createSlice({
-//     name: 'auth', 
-//     initialState: {
-//         auth: false, 
-//         userDetails: {
-//             first: "",
-//             last: "",
-//             preferred: null, 
-//             mail: "", 
-//             pass: "", 
-//             bio: null, 
-//             tags: [], 
-//             pk: 0
-//         }
-//     }, 
-//     reducers: {
-//         login(state, action) {
-//             state.auth = true;
-//             state.userDetails = { ...action.payload };
-//         }, 
-//         logout(state){
-//             state.auth=false;
-//         }, 
-//         include(state, action){
-//             state.auth = true;
-//             const {key, value} = action.payload;
-//             state.userDetails={...state.userDetails, [key]: value }
-//         }
-//     }
-// });
+let localStoreUser = localStorage.getItem("Marketfy_ActiveUser");
+let initialAuth;
+if(JSON.parse(localStoreUser) == false || !localStoreUser ){
+    initialAuth = {auth: false};
+} else {
+    let localStoreUserDets = JSON.parse(localStorage.getItem("Marketfy_ActiveUser_Details"));
+    initialAuth = {
+        auth: true, 
+        id: localStoreUser, 
+        first: localStoreUserDets.first,
+        preferred: localStoreUserDets.preferred
+    }
+}
+
+
+const authSlice = createSlice({
+    name: 'auth', 
+    initialState: initialAuth, 
+    reducers: {
+        setAuth(state, action){
+            state=action.payload;
+        }
+        // ,
+        // login(state, action) {
+        //     state = { ...action.payload };
+        // }, 
+        // logout(state){
+        //     state.auth=false;
+        // }, 
+        // include(state, action){
+        //     state.auth = true;
+        //     const {key, value} = action.payload;
+        //     state.userDetails={...state.userDetails, [key]: value }
+        // }
+    }
+});
 
 let localStoreCart = localStorage.getItem("Marketfy_Cart");
 let initial; 
@@ -132,14 +137,14 @@ const cartSlice = createSlice({
 
 const store = configureStore({
     reducer: {
-        // auth: authSlice.reducer, 
+        auth: authSlice.reducer, 
         cart: cartSlice.reducer, 
         // wish: wishSlice.reducer, 
         // orders: ordersSlice.reducer
     }
 })
 
-// export const authActions = authSlice.actions;
+export const authActions = authSlice.actions;
 export const cartActions = cartSlice.actions;
 // export const wishActions = wishSlice.actions;
 // export const ordersActions = ordersSlice.actions;

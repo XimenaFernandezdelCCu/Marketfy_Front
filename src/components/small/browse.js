@@ -11,7 +11,6 @@ import BrowseCard from "../reusable/browseCard";
 import Loader from "../reusable/loader";
 
 export default function Browse(){
-    console.log("browse")
     const {data, setData, page, setFound}= useContext(HomeContext);
     const [dbData, setDbData]= useState([]);
     const url = "http://localhost:8080/products";
@@ -23,7 +22,6 @@ export default function Browse(){
         axios.get(url)
         .then( response => {
             setLoading(false)
-            console.log("Response Data: ", response.data);
             setDbData(response.data);
             setFound(response.data.length);
             setData(paginationArray(response.data.sort(()=>Math.random()-.5)))

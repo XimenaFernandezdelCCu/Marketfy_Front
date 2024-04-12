@@ -7,13 +7,11 @@ import { useContext, useEffect, useState } from 'react';
 export default function Pagination(){
     const {found, page, setPage, data} = useContext(HomeContext);
     const [pages, setPages] = useState([])
-    console.log("Pagination; ", data);
 
     useEffect(() => {
         setPages(Array.from({ length: Math.ceil(data.length) }, (_, index) => index + 1))
     }, [data]);
 
-    console.log("pages: ", pages)
     return (
         <div>
             <h4>Found: {found} Books.</h4>

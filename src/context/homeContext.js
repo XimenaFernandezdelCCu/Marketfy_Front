@@ -7,7 +7,6 @@ export function HomeProvider ({children}){
     const [page, setPage] = useState(0);
     const [data, setData] = useState([]);
     
-
     return(
         <HomeContext.Provider value={{found, setFound, page, setPage, data, setData}} >
             {children}

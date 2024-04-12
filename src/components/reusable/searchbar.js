@@ -3,7 +3,6 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 
 export default function Searchbar ({returnThis}) {
-    console.log("searchbar")
 
     const handleSearchbarInput = (event) => {
         event.preventDefault();

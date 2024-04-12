@@ -1,53 +1,39 @@
 import { useState, useEffect } from "react"
 import axios from "axios";
+import { Link } from "react-router-dom"
+import { Outlet } from "react-router-dom";
 
-//components
-import ProfileDetails from "./profileDetails";
-import ProfileEdit from "./profileEdit";
-import ProfileWishlist from "./profileWishlist";
-import ProfileOrders from "./profileOrders";
 
-export default function Profile(){
+export default function Profile(props){
     const [dbData, setDbData] = useState([]);
-    const [profileOption, setProfileOption] = useState('details');
-    let displayDetails;
-    let editableDetails;
-    let interests;
 
+    
     useEffect(() => {
         const id = localStorage.getItem("Marketfy_ActiveUser");
-        const url = `http://localhost:8080/userDetails?id=${id}`
+        if (Number.isInteger(id) && id !== 0){
+            const url = `http://localhost:8080/userDetails?id=${id}`
         axios.get(url)
         .then( response => {
             console.log("Response Data: ", response.data);
             setDbData(response.data)
         })
-        
+        }  
     }, []);
 
     return (
         <div>
             <div>
                 <h1>Avatar</h1>
+                <h1>Welcome NAME</h1>
                 <ul>
-                    <li onClick={()=>setProfileOption('details')} >User Details</li>
-                    <li onClick={()=>setProfileOption('edit')}>Edit Profile</li>
-                    <li onClick={()=>setProfileOption('wishlist')}>Wishlist</li>
-                    <li onClick={()=>setProfileOption('orders')}>Order History</li>
+                    <li><Link to='/profile/' className="HeaderLink" >User Details</Link></li>
+                    <li><Link to='/profile/edit' className="HeaderLink" >Edit Profile</Link></li>
+                    <li><Link to='/profile/wishlist' className="HeaderLink" >Wishlist</Link></li>
+                    <li><Link to='/profile/orders' className="HeaderLink" >Order History</Link></li>
                 </ul>
             </div>
             <div>
-                {profileOption === 'details' ?
-                    <ProfileDetails dbData={dbData}
-                    onClick={()=>setProfileOption('edit')}></ProfileDetails> 
-                : profileOption === 'edit' ? 
-                    <ProfileEdit dbData={dbData.slice(1)}></ProfileEdit>
-                : profileOption === 'wishlist' ?
-                    <ProfileWishlist></ProfileWishlist>
-                : profileOption === 'orders' &&
-                    <ProfileOrders></ProfileOrders>
-                }
-
+                <Outlet/>
             </div>
 
         </div>
