@@ -6,9 +6,11 @@ import { Link } from "react-router-dom";
 import { useAxiosGet } from "../../hooks/useAxiosGet";
 import Error from "../reusable/error";
 import Loader from "../reusable/loader";
+import Searchbar from "../reusable/searchbar";
 
 export default function ProfileOrders(){
     const [dbData, setDbData] = useState({orders:[]});
+    const [data, setData] = useState({orders:[]});
     const {fetchData, loading, error}= useAxiosGet();
 
 
@@ -22,6 +24,22 @@ export default function ProfileOrders(){
     }, []);
     function setttt(response){
         setDbData(response.data);
+        setData(response.data)
+    }
+
+    function getData(input) {
+        let search = input.searchText.toLowerCase().replace(/\s+/g, '');
+
+        const filtered = data.orders.filter((order)=>order.orderId.toString().includes(search))
+        if (filtered.length>0){
+            const newData = {
+                userOrders: filtered.length, 
+                orders: filtered
+            }
+            setData(newData)
+            console.log("new Data", newData);
+        }
+
     }
 
     return (
@@ -38,10 +56,12 @@ export default function ProfileOrders(){
                             <Loader></Loader>
                             :
                             <>
-                                <p>{dbData.userOrders} orders found:</p>
-                                {dbData.orders.length>0?
+                                <p>{data.userOrders} orders found</p>
+                                <Searchbar returnThis={getData} radio={false} ></Searchbar>
+                                <button onClick={()=>setData(dbData)} >Clear Search</button>
+                                {data.orders.length>0?
                                         <div style={{ display: "flex" }} >
-                                            {dbData.orders.map((order) =>
+                                            {data.orders.map((order) =>
                                                 <div key={order.orderId}>
                                                     <h4>Order #{order.orderId}</h4>
                                                     <p>Received: {order.date}</p>

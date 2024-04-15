@@ -1,7 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons"
 import { Link } from "react-router-dom"
+import { emptyCart } from "../../utils/utils"
 // Redux 
+import { useDispatch } from "react-redux"
 //react
 import { useState, useEffect, useContext } from "react"
 // components
@@ -20,6 +22,7 @@ export default function Cart() {
         loading, 
         error
     }= useContext(CartContext);
+    const dispatch = useDispatch();
     
     return (
         <div>
@@ -37,6 +40,7 @@ export default function Cart() {
                     {cartLength > 0 ?
                         <>
                             <h4>{cartLength} items</h4>
+                            <button onClick={()=>{emptyCart(dispatch); window.location.href="/cart"}} >Empty Cart</button>
                             <CartItemDetails></CartItemDetails>
                             <hr></hr>
                             <h3>Total: {total} </h3>

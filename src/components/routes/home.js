@@ -1,5 +1,6 @@
 //hook
 import { useModal } from "../../hooks/useModal"
+import { Link } from "react-router-dom";
 //components
 import Modal from "../reusable/modal";
 import Browse from "../small/browse";
@@ -15,13 +16,14 @@ export default function Home(){
     return (
         <HomeProvider>
           {showModal && 
-          <Modal closeModal={()=>{setShowModal(false)}} >
-            <h2>hello modal</h2>
+          <Modal closeModal={()=>setShowModal(false)} >
+            <h2>To add Items to a wishlist you need to be logged in.</h2>
+            <button><Link to='/auth' className="HeaderLink" >Login</Link></button>
           </Modal> 
           }
 
           <h1>HOME</h1>
-          <Browse></Browse>
+          <Browse modal={()=>setShowModal(true)} ></Browse>
         </HomeProvider>
     )
 }

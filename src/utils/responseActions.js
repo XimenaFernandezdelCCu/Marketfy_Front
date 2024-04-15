@@ -44,13 +44,7 @@ export function createAccountAction(response, navigate){
     navigate('/auth/extraDetails')
 }
 
-// -- Create Order
-// export function createOrderAction(response){
-//     const newOrderLink = response.data._links.order.href;
-//     const newOrderID = newOrderLink.split("/").pop();
-//     addItems2Order(newOrderID);
 
-// }
 
 // -- add items to order 
 export function AddItems2OrderAction(response, dispatch){

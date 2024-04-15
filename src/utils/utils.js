@@ -80,6 +80,7 @@ export function emptyCart(dispatch){
     console.log("emptying")
     localStorage.removeItem("Marketfy_Cart");
     dispatch(cartActions.removeAllFromCart());
+    
 }
 
 // adds the field Qty and ItemTotal to the books array 

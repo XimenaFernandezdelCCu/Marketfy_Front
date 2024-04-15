@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faHeart} from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom'
+
 //components
 import Searchbar from "../reusable/searchbar";
 import Pagination from "../reusable/pagination";
@@ -15,13 +17,15 @@ import BrowseCard from "../reusable/browseCard";
 import Loader from "../reusable/loader";
 import Error from "../reusable/error";
 
-export default function Browse(){
+export default function Browse({modal}){
     const reduxAuth = useSelector((state) => state.auth);
     const isAuthenticated = reduxAuth.auth;
     const userId = isAuthenticated ? reduxAuth.id : null;
 
-    const { postData } = useAxiosPost();
+    const navigate = useNavigate();
+    const { postData } = useAxiosPost();    
     const { fetchData, loading, error } = useAxiosGet();
+    const { fetchData: fetchDataWishlist, loading: loadingWishlist, error: errorWishlist } = useAxiosGet();
     const {data, setData, page, setFound}= useContext(HomeContext);
     const [dbData, setDbData]= useState([]);
     const [wishlistItems, setWishlistItems] = useState([]);
@@ -36,14 +40,15 @@ export default function Browse(){
         if (userId) {
             console.log("auth")
             const url = `http://localhost:8080/productsInWishlistByUserId?id=${userId}`
-            fetchData(url, setttt);
+            fetchDataWishlist(url, setttt);
         }
 
     }, []);
 
     function setttt(response){
-        // console.log("wish ids: ", response.data.map((item)=>item.product.productId) )
-        setWishlistItems(response.data);
+        if (Array.isArray(response.data)){
+            setWishlistItems(response.data);
+        }
     }
 
 
@@ -59,7 +64,6 @@ export default function Browse(){
     make requests depending on the search params. */
     function getData(input) {
         let search = input.searchText.toLowerCase().replace(/\s+/g, '');
-        console.log("dbData search", dbData);
         let data = dbData;
         let filtered;
 
@@ -93,36 +97,30 @@ export default function Browse(){
 
     function add2Wishlist(productId){
         const id = localStorage.getItem("Marketfy_ActiveUser");
-        if (!id|| id==false){
-            console.log("building.....")
-    
-        } else {
-            console.log("adding to wish")
-            const url = "http://localhost:8080/wishlistItems";
-            const wishItem = {
-                "userId": id,
-                "productId": productId
-            }
-            postData(url,wishItem, (response)=>{
-                const newWishLink = response.data._links.self.href;
-                const newWishID = parseInt(newWishLink.split("/").pop());
-                const newWishlistItem = {
-                    wishlistId: newWishID, 
-                    product: {
-                        productId: productId
-                    }
-                }
-                console.log("AAa", [...wishlistItems, newWishlistItem] )
-                setWishlistItems((wishlistItems)=>[...wishlistItems, newWishlistItem] )
-            })
-
+        const url = "http://localhost:8080/wishlistItems";
+        const wishItem = {
+            "userId": id,
+            "productId": productId
         }
+        postData(url,wishItem, (response)=>{
+            const newWishLink = response.data._links.self.href;
+            const newWishID = parseInt(newWishLink.split("/").pop());
+            const newWishlistItem = {
+                wishlistId: newWishID, 
+                product: {
+                    productId: productId
+                }
+            }
+            setWishlistItems((wishlistItems)=>[...wishlistItems, newWishlistItem] )
+        })
+
+        
     }
 
 
     return (
         <>
-            <Searchbar returnThis={getData}></Searchbar>
+            <Searchbar returnThis={getData} radio={true}></Searchbar>
 
             <Pagination></Pagination>
 
@@ -143,38 +141,39 @@ export default function Browse(){
                     : data[0] ?
                     data[page].map((book, index)=>
                     <BrowseCard book={book} key={book.productId}>
-                            {isAuthenticated?
-                            <> 
-                            {wishlistItems.map((item)=>item.product.productId).includes(book.productId)?
-                                <button
-                                // nothing or remove from wishlist
-
-                                onClick={()=>handleDeletefromWishlist(
-                                    wishlistItems.find((item)=>item.product.productId ==book.productId).wishlistId, 
-                                    setWishlistItems)}
-                                >
-                                    <FontAwesomeIcon icon={solidHeart} />
-                                </button>
-
-                            :
-                                <button
-                                onClick={()=>add2Wishlist(book.productId)}
-                                >
-                                    <FontAwesomeIcon icon={regularHeart} />
-                                </button>
-                            
-                            }
-                            </>
-                            :
+                        {isAuthenticated?
+                        <> 
+                        {wishlistItems.map((item)=>item.product.productId).includes(book.productId)?
                             <button
-                                // ask to log in to add to wishlist
-                                onClick={()=>console.log("not user")}
+                            // remove from wishlist 
+                            onClick={()=>handleDeletefromWishlist(
+                                wishlistItems.find((item)=>item.product.productId ==book.productId).wishlistId, 
+                                setWishlistItems)}
+                            >
+                                <FontAwesomeIcon icon={solidHeart} />
+                            </button>
+
+                        :
+                            <button
+                            // add to wishlist 
+                            onClick={()=>add2Wishlist(book.productId)}
                             >
                                 <FontAwesomeIcon icon={regularHeart} />
                             </button>
-                            }
+                        
+                        }
+                        </>
+                        :
+                        <button
+                            // ask to log in to add to wishlist
+                            onClick={modal}
+                        >
+                            <FontAwesomeIcon icon={regularHeart} />
+                        </button>
+                        }
+                        <button onClick={()=>navigate(`/products/${book.productId}`)}  >See More Details</button>
 
-                        </BrowseCard>
+                    </BrowseCard>
                     )
                     :
                     <div>

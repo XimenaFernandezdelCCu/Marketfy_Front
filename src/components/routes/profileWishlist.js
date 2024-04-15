@@ -24,7 +24,9 @@ export default function ProfileWishlist() {
     }, []);
 
     function setttt(response){
-        setDbData(response.data);
+        if (Array.isArray(response.data)){
+            setDbData(response.data);
+        }
     }
     console.log("dbData: ", dbData);
 

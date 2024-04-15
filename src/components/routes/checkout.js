@@ -3,7 +3,6 @@ import { CartContext } from "../../context/cartContext";
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux"
-import { emptyCart } from "../../utils/utils";
 import { useAxiosPost } from "../../hooks/useAxiosPost";
 import { AddItems2OrderAction } from "../../utils/responseActions";
 
@@ -52,10 +51,6 @@ export default function Checkout() {
                 const newOrderLink = response.data._links.order.href;
                 const newOrderID = newOrderLink.split("/").pop();
                 addItems2Order(newOrderID);
-                // if (response.status == 200){
-                //     localStorage.setItem("Marketfy_ActiveUser", response.data);
-                //     navigate('/');
-                // }
             }).catch(error => {
                 console.error("Oh no!", error)
             }); 

@@ -8,7 +8,13 @@ export function HomeProvider ({children}){
     const [data, setData] = useState([]);
     
     return(
-        <HomeContext.Provider value={{found, setFound, page, setPage, data, setData}} >
+        <HomeContext.Provider 
+        value={{
+            found, setFound, 
+            page, setPage, 
+            data, setData
+        }}
+        >
             {children}
         </HomeContext.Provider>
     )

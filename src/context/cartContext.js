@@ -21,8 +21,10 @@ export function CartProvider ({children}){
 
     // get cart from redux 
     const rawCart = useSelector((state) => state.cart);
+    console.log("raw: ", rawCart);
     // validate & get ids and obj
     if (validateRawCart(rawCart, dispatch)) {
+        console.log("here?")
         cartLength = cleanRawCart(rawCart).length;
         cartObj = countOccurrences(rawCart);
         ids = cartObj.map((obj) => obj.id);

@@ -14,17 +14,39 @@ export default function ProfileDetails(){
     const detailName = ["Email", "First Name", "Last Name", "Preferred Name", "Bio", "Interest Tags"];
     const [dbData, setDbData] = useState([]);
     const {fetchData, loading, error} = useAxiosGet();
+
+    const detailOptions = [
+        {
+            key: "email", 
+            display: "Email"
+        },
+        {
+            key: "first", 
+            display: "First Name"
+        },
+        {
+            key: "last", 
+            display: "Last Name"
+        },
+        {
+            key: "preferred", 
+            display: "What do you want us to call you?"
+        },
+        {
+            key: "bio", 
+            display: "Bio"
+        }, 
+        {
+            key: "interest", 
+            display: "Interest Tags"
+        }
+    ]
     
     useEffect(() => {
         const id = localStorage.getItem("Marketfy_ActiveUser");
         if (!isNaN(id) && id !== 0){
             const url = `http://localhost:8080/userDetails?id=${id}`
             fetchData(url, setttt)
-        // axios.get(url)
-        // .then( response => {
-        //     console.log("Response Data: ", response.data);
-        //     setDbData(response.data)
-        // })
         }  
     }, []);
 
@@ -43,17 +65,25 @@ export default function ProfileDetails(){
                             <Loader></Loader>
                             :
                             <>
-                            {dbData.map((detail, index)=>
-                                detail ?
+                            {detailOptions.map((detail, index)=>
+                                // detail ?
                                 <Detail key={index}
-                                name={detailName[index]} value={detail} ></Detail>
-                                :
-                                <div>
-                                    <h3>To add your {detailName[index]} go to: 
-                                    <Link to='/profile/edit' className="HeaderLink" >Edit Profile</Link>
-                                    </h3>
-                                    <hr/>
-                                </div>
+                                name={detail.display} 
+                                value={dbData[detail.key] ? JSON.stringify(dbData[detail.key]).slice(1,-1)
+                                    :
+                                    <>
+                                    To add your {detailName[index]} go to: 
+                                     <Link to='/profile/edit' className="HeaderLink" >Edit Profile</Link>
+                                    </>
+                                } 
+                                ></Detail>
+                                // :
+                                // <div>
+                                //     <h3>To add your {detailName[index]} go to: 
+                                //     <Link to='/profile/edit' className="HeaderLink" >Edit Profile</Link>
+                                //     </h3>
+                                //     <hr/>
+                                // </div>
                                 
                             )}
                             </>

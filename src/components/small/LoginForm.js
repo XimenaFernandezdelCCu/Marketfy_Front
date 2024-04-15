@@ -1,7 +1,6 @@
 import axios from 'axios';
 //hooks
 import { useAxiosPost } from '../../hooks/useAxiosPost';
-import { useNavigate } from 'react-router-dom';
 import { loginAction } from '../../utils/responseActions';
 
 import { Link } from 'react-router-dom';
@@ -11,13 +10,14 @@ import Loader from '../reusable/loader';
 import Error from '../reusable/error';
 
 export default function LoginForm(){
-    const navigate = useNavigate();
     const {postData, loading, error } = useAxiosPost();
     const url = 'http://localhost:8080/login';
     let status;
     if (error){
-        if (!error.code === "ERR_NETWORK"){
+        console.log("eeeeeeerrooooooooor")
+        if (error.code != "ERR_NETWORK"){
             status = error.response.status ?? null;
+            console.log("status: ", status)
         }
     }
 

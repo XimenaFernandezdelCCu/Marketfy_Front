@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 
-export default function Searchbar ({returnThis}) {
+export default function Searchbar ({returnThis, radio}) {
 
     const handleSearchbarInput = (event) => {
         event.preventDefault();
@@ -20,6 +20,7 @@ export default function Searchbar ({returnThis}) {
                 id="searchbar"
                 onSubmit={handleSearchbarInput}>
 
+                {radio &&
                 <div>
                     <p>Search By:</p>
                     <input name="searchBy" type='radio' id="radioTitle" value="title" defaultChecked></input>
@@ -29,6 +30,7 @@ export default function Searchbar ({returnThis}) {
                     <input name="searchBy" type='radio' id="radioPrice" value="price"></input>
                     <label htmlFor="radioPrice">Price</label>
                 </div>
+                }
 
                 <input
                     type="text"
