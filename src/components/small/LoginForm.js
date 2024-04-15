@@ -7,11 +7,20 @@ import { loginAction } from '../../utils/responseActions';
 import { Link } from 'react-router-dom';
 //components
 import FormInput from "../reusable/formInput"
+import Loader from '../reusable/loader';
+import Error from '../reusable/error';
 
 export default function LoginForm(){
     const navigate = useNavigate();
-    const {fetchData, doneFetching, data, error } = useAxiosPost();
+    const {postData, loading, error } = useAxiosPost();
     const url = 'http://localhost:8080/login';
+    let status;
+    if (error){
+        if (!error.code === "ERR_NETWORK"){
+            status = error.response.status ?? null;
+        }
+    }
+
 
     function handleLogin(event){
         event.preventDefault();
@@ -21,17 +30,8 @@ export default function LoginForm(){
             email : formData.get('loginEmail'), 
             pass : formData.get('loginPassword')
         }
-        // const response = fetchData(url, user);
         
-        axios.post(url, user)
-        .then( response => {
-            console.log("Response: ", response);
-            if (response.status == 200){
-                loginAction(response, navigate)
-            }
-        }).catch(error => {
-            console.error("Oh no!", error)
-        }); 
+        postData(url, user, loginAction);        
     }   
 
   
@@ -39,32 +39,55 @@ export default function LoginForm(){
         <div>
             <h3>Login</h3>
 
-            <form 
-            id="loginForm" 
-            onSubmit={handleLogin}>
-                <p>
-                    <strong>Welcome Back!</strong><br />
-                    Please provide your authentication details.
-                </p>
+            <div style={{position:"relative"}}>
 
-                <FormInput name="Email" id="loginEmail" type="email"  
-                // onblur={(event)=>handleValidInputs(event, "mail", setValid)} 
-                >
-                {/* <small>{valid.mail==false?"Please provide a valid emal.":""}</small> */}
-                </FormInput>
+                {loading &&
+                    <Loader></Loader>
+                }
 
-                <FormInput name="Password" id="loginPassword" type="password"  
-                // onblur={(event)=>handleValidInputs(event, "pass", setValid)} 
-                >
-                {/* <small>{valid.pass==false?"Please enter your password.":""}</small> */}
-                </FormInput>
+                {error.code === "ERR_NETWORK" &&
+                    <Error></Error>                    
+                }
 
-                {/* <small>{userFound==false?"We couldn't find this user, please rectify the information or create an account.":""}</small><br/> */}
+                <form 
+                id="loginForm" 
+                onSubmit={handleLogin}>
+                    <p>
+                        <strong>Welcome Back!</strong><br />
+                        Please provide your authentication details.
+                    </p>
 
-                <button className="pill"  type="submit" htmlFor="loginForm" 
-                // disabled={!allow}
-                >Login</button>
-            </form>
+                    <FormInput name="Email" id="loginEmail" type="email"  
+                    // onblur={(event)=>handleValidInputs(event, "mail", setValid)} 
+                    >
+                    {/* <small>{valid.mail==false?"Please provide a valid emal.":""}</small> */}
+                    {status == 400 && 
+                        <div>
+                        <small>{error.response.data}</small>
+                        </div>
+                    }
+                    </FormInput>
+
+                    <FormInput name="Password" id="loginPassword" type="password"  
+                    // onblur={(event)=>handleValidInputs(event, "pass", setValid)} 
+                    >
+                    {/* <small>{valid.pass==false?"Please enter your password.":""}</small> */}
+                    {status == 401 && 
+                        <div>
+                        <small>{error.response.data}</small>
+                        </div>
+                    }
+                    </FormInput>
+                    
+
+                    {/* <small>{userFound==false?"We couldn't find this user, please rectify the information or create an account.":""}</small><br/> */}
+
+                    <button className="pill"  type="submit" htmlFor="loginForm" 
+                    // disabled={!allow}
+                    >Login</button>
+                </form>
+
+            </div>
 
             <div>
                 <p>
@@ -73,11 +96,6 @@ export default function LoginForm(){
                 </p>
 
             </div>
-
-
-
-
-
       
         </div>
     )

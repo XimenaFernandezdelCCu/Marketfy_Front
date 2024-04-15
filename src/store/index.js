@@ -87,7 +87,6 @@ const cartSlice = createSlice({
             state=[];
         }, 
         setCart(state, action){
-            console.log("redux set cart")
             state=action.payload;
         }
         

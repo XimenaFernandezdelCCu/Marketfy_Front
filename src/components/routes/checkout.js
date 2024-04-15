@@ -4,7 +4,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from "react-redux"
 import { emptyCart } from "../../utils/utils";
-
+import { useAxiosPost } from "../../hooks/useAxiosPost";
+import { AddItems2OrderAction } from "../../utils/responseActions";
 
 
 //components
@@ -18,6 +19,7 @@ import '../../style/modal.css'
 export default function Checkout() {
     const [loader, setLoader]= useState(false);
     const {total, setCheckout, cartObj, cartLength}= useContext(CartContext);
+    const {postData} = useAxiosPost();
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -44,13 +46,11 @@ export default function Checkout() {
                 total: total,
                 orderDate: new Date().toISOString()
             }
-            console.log("order-- ", JSON.stringify(order));
             axios.post(url, order)
             .then(response => {
                 console.log("Response: ", response);
                 const newOrderLink = response.data._links.order.href;
                 const newOrderID = newOrderLink.split("/").pop();
-                console.log(newOrderID);
                 addItems2Order(newOrderID);
                 // if (response.status == 200){
                 //     localStorage.setItem("Marketfy_ActiveUser", response.data);
@@ -59,9 +59,6 @@ export default function Checkout() {
             }).catch(error => {
                 console.error("Oh no!", error)
             }); 
-
-            
-            
         }
     }
 
@@ -74,20 +71,7 @@ export default function Checkout() {
                 qty: it.qty
             }})
         }
-        axios.post(url, orderItems)
-        .then(response => {
-            console.log("Response: ", response);
-            emptyCart(dispatch)
-            // navigate('/profile/orders');
-            window.location.href="/profile/orders"
-            // navigate('/');
-            // if (response.status == 200){
-            //     localStorage.setItem("Marketfy_ActiveUser", response.data);
-            // }
-        }).catch(error => {
-            console.error("Oh no!", error)
-        });
-        
+        postData(url, orderItems, AddItems2OrderAction )
     }
     
     return (

@@ -9,7 +9,6 @@ import axios from "axios";
 
 //-----------------------------
 // creates an array to handle pagination
-// everytime you import it : *
 export function paginationArray(data, num = 9) {
     let arr = [];
     for (let i = 0; i < Math.ceil(data.length / num); i++) {
@@ -117,26 +116,7 @@ export function convert2Details(array) {
 }
 
 // ---------------------------
-// wishhh
-export function add2Wishlist(productId){
-    const id = localStorage.getItem("Marketfy_ActiveUser");
-    if (!id|| id==false){
-        console.log("building.....")
-
-    } else {
-        const url = "http://localhost:8080/wishlistItems";
-        const wishItem = {
-            "userId": id,
-            "productId": productId
-        }
-        axios.post(url,wishItem)
-        .then( response =>{
-            console.log("Response Data: ", response);
-        })
-    }
-}
-
-export function handleDeletefromWishlist(id, dbData, setDbData){
+export function handleDeletefromWishlist(id, setDbData){
     const url = `http://localhost:8080/wishlistItems/${id}`
     axios.delete(url)
     .then( response => {
@@ -178,21 +158,3 @@ export function cleanRawCart(arr){
 }
 
 //------------------------------------
-// export function orderGeneration(){
-//     order = {
-//         userid: 1,
-//         totalItems: 3, 
-//         items: [
-//             {
-//                 bookid: 1,
-//                 qty: 3
-//             }, 
-//             {
-//                 bookid: 1,
-//                 qty: 3
-//             }
-//         ],
-//         total: 220, 
-//         generation: "today"
-//     }
-// }

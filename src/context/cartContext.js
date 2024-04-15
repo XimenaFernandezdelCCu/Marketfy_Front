@@ -3,13 +3,14 @@ import axios from "axios"
 import { validateRawCart, countOccurrences, cleanRawCart } from "../utils/utils";
 // Redux 
 import { useSelector, useDispatch } from "react-redux"
-
+import { useAxiosGet } from "../hooks/useAxiosGet";
 
 const CartContext = createContext();
 
 export function CartProvider ({children}){
     const dispatch = useDispatch();
     // state & variable declaration 
+    const {fetchData, loading,  error,} = useAxiosGet();
     const [dbData, setDbData] = useState([]);
     const [checkout, setCheckout]= useState(false);
     let cartLength =[];
@@ -30,15 +31,13 @@ export function CartProvider ({children}){
     useEffect(() => {
         if(ids.length>0 ){
             const url = `http://localhost:8080/products/byIDs?ids=${ids}`
-    
-            axios.get(url)
-            .then( response => {
-                console.log("Response Data: ", response.data);
-                setDbData(response.data)
-                // setDbData(addQtytoData(response.data, cartObj))
-            })
+            fetchData(url, setttt);
         }
     }, []);
+
+    function setttt(response){
+        setDbData(response.data);
+    }
 
     // eliminate items not in the cart
     if(ids.length != dbData.length){
@@ -72,7 +71,9 @@ export function CartProvider ({children}){
         cartLength, 
         total, 
         checkout,
-        setCheckout
+        setCheckout,
+        loading, 
+        error 
         }}>
             {children}
         </CartContext.Provider>

@@ -6,20 +6,6 @@ import { Outlet } from "react-router-dom";
 
 export default function Profile(props){
     const [dbData, setDbData] = useState([]);
-
-    
-    useEffect(() => {
-        const id = localStorage.getItem("Marketfy_ActiveUser");
-        if (Number.isInteger(id) && id !== 0){
-            const url = `http://localhost:8080/userDetails?id=${id}`
-        axios.get(url)
-        .then( response => {
-            console.log("Response Data: ", response.data);
-            setDbData(response.data)
-        })
-        }  
-    }, []);
-
     return (
         <div>
             <div>

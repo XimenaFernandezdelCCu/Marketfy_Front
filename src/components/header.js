@@ -10,9 +10,6 @@ export default function Header(){
     const dispatch = useDispatch();
     const isAuthenticated = reduxAuth;
 
-    // useEffect(() => {
-    //     const isAuthenticated = reduxAuth;
-    // }, [reduxAuth])
 
     return (
         <header>

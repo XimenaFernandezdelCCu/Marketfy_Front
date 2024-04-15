@@ -14,14 +14,14 @@ export default function Home(){
 
     return (
         <HomeProvider>
-        {showModal && 
-        <Modal closeModal={()=>{setShowModal(false)}} >
-          <h2>hello modal</h2>
-        </Modal> 
-        }
+          {showModal && 
+          <Modal closeModal={()=>{setShowModal(false)}} >
+            <h2>hello modal</h2>
+          </Modal> 
+          }
 
-        <h1>HOME</h1>
-        <Browse></Browse>
+          <h1>HOME</h1>
+          <Browse></Browse>
         </HomeProvider>
     )
 }

@@ -1,9 +1,11 @@
 // Functions to run after data has been fecthed 
 
 import { authActions } from "../store";
+import { emptyCart } from "./utils";
+
 
 // -- Log in 
-export function loginAction(response, navigate) {
+export function loginAction(response) {
     // local
     localStorage.setItem("Marketfy_ActiveUser", response.data.id);
     localStorage.setItem("Marketfy_ActiveUser_Details", JSON.stringify({
@@ -40,7 +42,19 @@ export function createAccountAction(response, navigate){
     
     //Go to extra details
     navigate('/auth/extraDetails')
-
-
-
 }
+
+// -- Create Order
+// export function createOrderAction(response){
+//     const newOrderLink = response.data._links.order.href;
+//     const newOrderID = newOrderLink.split("/").pop();
+//     addItems2Order(newOrderID);
+
+// }
+
+// -- add items to order 
+export function AddItems2OrderAction(response, dispatch){
+    emptyCart(dispatch)
+    window.location.href="/profile/orders"
+}
+
