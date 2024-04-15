@@ -26,9 +26,13 @@ export default function Cart() {
     
     return (
         <div>
-            <FontAwesomeIcon icon={faCartShopping} />
-            <h1>Cart</h1>
-            <div style={{position:"relative"}} >
+            <div className="flex"> 
+                <FontAwesomeIcon icon={faCartShopping} />
+                <h1 className="title" >Cart</h1>
+            </div>
+
+            <div className="greyContainer rounded relative m3" >
+
                 {error?
                     <Error></Error>
                 :
@@ -38,27 +42,32 @@ export default function Cart() {
                     :
                     <>
                     {cartLength > 0 ?
-                        <>
-                            <h4>{cartLength} items</h4>
-                            <button onClick={()=>{emptyCart(dispatch); window.location.href="/cart"}} >Empty Cart</button>
+                        <div className="flexCol justifyCenter" >
+
+                            <div className="flex justifybetween ">
+                                <h4>{cartLength} items</h4>
+                                <button onClick={()=>{emptyCart(dispatch); window.location.href="/cart"}} >Empty Cart</button>
+                            </div>
+
                             <CartItemDetails></CartItemDetails>
                             <hr></hr>
-                            <h3>Total: {total} </h3>
-                            {!checkout ?
+                            <h3 style={{color:"#cc8245"}}>
+                                Total: {total} </h3>
+                            {/* {!checkout ?
                                 <button className="pill"
                                 onClick={() => { setCheckout(true) }}
                                 >Checkout</button>
                             :
                             <Checkout total={total} setCheckout={setCheckout} ></Checkout>
-                            }
-                        </>
+                            } */}
+                        </div>
                         :
                         <>
                             <h1>Your cart is empty!</h1>
                             <h4>You can add items to your cart in the
                                 <Link to='/'>Shop</Link>. 
                             </h4>
-                        </>
+                        </>   
                     }
                     </>
                     }
@@ -66,6 +75,21 @@ export default function Cart() {
                 }
 
             </div>
+            {cartLength > 0 &&
+            <>
+            {!checkout ? 
+                <div className="flex justifyCenter m3" >
+
+                <button className="pill"
+                onClick={() => { setCheckout(true) }}
+                >Checkout</button>
+                </div>
+                :
+                <Checkout total={total} setCheckout={setCheckout} ></Checkout>
+            }
+            </>
+            }
+
 
 
         </div>

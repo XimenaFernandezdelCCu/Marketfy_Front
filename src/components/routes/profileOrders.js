@@ -59,17 +59,20 @@ export default function ProfileOrders(){
                                 <p>{data.userOrders} orders found</p>
                                 <Searchbar returnThis={getData} radio={false} ></Searchbar>
                                 <button onClick={()=>setData(dbData)} >Clear Search</button>
+
                                 {data.orders.length>0?
-                                        <div style={{ display: "flex" }} >
+                                        <div className="flex wrapp" >
+
                                             {data.orders.map((order) =>
-                                                <div key={order.orderId}>
+                                                <div className="greyContainer rounded m3"
+                                                key={order.orderId}>
                                                     <h4>Order #{order.orderId}</h4>
                                                     <p>Received: {order.date}</p>
                                                     <li>{order.totalItems} Items:</li>
                                                     <li>
                                                         {order.products.map((book, index) =>
                                                             <div
-                                                                style={{ display: "flex", justifyContent: "space-evenly" }}
+                                                                className="flex justifyEvenly"
                                                                 key={book.productId}>
                     
                                                                 <FontAwesomeIcon icon={faBookOpen} />
@@ -97,8 +100,11 @@ export default function ProfileOrders(){
                 }
 
             </div>
+            
+            <div className="flex justifyCenter">
 
-            <Link to='/home'>Shop</Link>. 
+            <Link to='/home' className="link">Shop</Link> 
+            </div>
         </div>
 
         </>

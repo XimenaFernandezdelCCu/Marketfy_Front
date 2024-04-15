@@ -11,7 +11,7 @@ import HomeProvider from "../../context/homeContext";
 
 export default function Home(){
 
-    const  {showModal, setShowModal, modalData, setModalData} = useModal();
+    const  {showModal, setShowModal} = useModal();
 
     return (
         <HomeProvider>
@@ -22,7 +22,7 @@ export default function Home(){
           </Modal> 
           }
 
-          <h1>HOME</h1>
+          <h1 className="title" >HOME</h1>
           <Browse modal={()=>setShowModal(true)} ></Browse>
         </HomeProvider>
     )

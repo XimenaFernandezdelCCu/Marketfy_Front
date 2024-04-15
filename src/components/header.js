@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom"
 import { useSelector, useDispatch } from "react-redux"
 import { logoutAction } from "../utils/responseActions";
-import { useEffect } from "react";
 
 
 export default function Header(){
@@ -12,29 +11,29 @@ export default function Header(){
 
 
     return (
-        <header>
+        <header className="flex wrapp p3 justifyCenter">
             <h1 className="title" >MARKETFY</h1>
 
-            <div style={{display:"flex", justifyContent: "space-evenly"}} >
+            <div className="flex justifyEvenly" style={{width:"80%"}} >
 
 
-                <Link to='/' className="HeaderLink" >Shop</Link>
+                <Link to='/' className="link" >Shop</Link>
 
 
-                <div style={{position:"relative"}}>
-                    <Link to='/cart' className="HeaderLink" style={{marginRight:"2vw"}} >Cart</Link>
+                <div className="relative">
+                    <Link to='/cart' className="link" >Cart</Link>
                     {cartLength>0 && <div className="notification">{cartLength}</div>}
 
                 </div>
 
                 { isAuthenticated ?
                     <>
-                    <Link to='/profile' className="HeaderLink" >Profile</Link>
-                    <a className="HeaderLink" onClick={()=>logoutAction(dispatch)} >Logout</a>
+                    <Link to='/profile' className="link" >Profile</Link>
+                    <a className="link" onClick={()=>logoutAction(dispatch)} >Logout</a>
                     </>
                 :
                     <>
-                    <Link to='/auth' className="HeaderLink" >Login</Link>
+                    <Link to='/auth' className="link" >Login</Link>
                     </>
                 }
 

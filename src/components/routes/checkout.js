@@ -1,8 +1,6 @@
 import { useContext } from "react"
 import { CartContext } from "../../context/cartContext";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from "react-redux"
 import { useAxiosPost } from "../../hooks/useAxiosPost";
 import { AddItems2OrderAction } from "../../utils/responseActions";
 
@@ -19,8 +17,6 @@ export default function Checkout() {
     const [loader, setLoader]= useState(false);
     const {total, setCheckout, cartObj, cartLength}= useContext(CartContext);
     const {postData} = useAxiosPost();
-    const navigate = useNavigate();
-    const dispatch = useDispatch();
 
 
     function showLoader() {
@@ -28,8 +24,6 @@ export default function Checkout() {
         const timeout = setTimeout(() => {
             setLoader(false);
         }, 4000);
-        
-
         return () => clearTimeout(timeout);
     }
 
@@ -70,19 +64,17 @@ export default function Checkout() {
     }
     
     return (
-        <div>
-            
-            <h1>Checkout</h1>
-            <button
-            onClick={() => setCheckout(false)}
-            >Back to Cart</button>
+        <div className="orangeBorderCard rounded m3 p3" >
+            <div className="flex justifybetween" >
 
-            <div style={{
-                position:"relative", 
-                display:"flex", 
-                justifyContent:"space-evenly", 
-                flexWrap: "wrap"
-                }}>
+                <button
+                onClick={() => setCheckout(false)}
+                >Back to Cart</button>
+                <h1 className="title" >Checkout</h1>
+            </div>
+
+            <div className="flex justifyEvenly wrapp 
+            relative rounded">
 
                 {loader &&
                     <div
@@ -106,6 +98,7 @@ export default function Checkout() {
                 }
 
                 <OrderDetails></OrderDetails>
+               
 
                 {/* <div>
                     <h4>Confirm your contact Info</h4>
@@ -118,9 +111,12 @@ export default function Checkout() {
 
             </div>
 
-            <button
-            onClick={generateOrder}
-            >PAY {total}</button>
+            <hr/>
+            <div className="flex justifyCenter" >
+                <button
+                onClick={generateOrder}
+                >PAY {total}</button>
+            </div>
                      
         </div>
     )

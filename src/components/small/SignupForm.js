@@ -32,8 +32,8 @@ export default function SignupForm() {
     }
 
     return (
-        <div>
-            <h3>Sign Up</h3>
+        <div className='orangeBorderCard rounded p3' >
+            <h3 className="title" >Sign Up</h3>
             <div style={{position:"relative"}}>
 
                 {loading &&
@@ -121,8 +121,8 @@ export default function SignupForm() {
 
             <div>
                 <p>
-                    <strong>Already have an account?</strong>
-                    <Link to='/auth/' className="HeaderLink" >Login</Link>
+                    <strong className="right" >Already have an account?</strong>
+                    <Link to='/auth/' className="link" >Login</Link>
                 </p>
 
             </div>

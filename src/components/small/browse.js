@@ -5,7 +5,6 @@ import { useAxiosGet } from "../../hooks/useAxiosGet";
 import { paginationArray, handleDeletefromWishlist } from "../../utils/utils";
 import { useSelector } from "react-redux"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import { faHeart} from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom'
@@ -30,35 +29,26 @@ export default function Browse({modal}){
     const [dbData, setDbData]= useState([]);
     const [wishlistItems, setWishlistItems] = useState([]);
     const url = "http://localhost:8080/products";
-    // let wishlistItems=[];
     
     useEffect(() => {
-        fetchData(url, handleConsumedbData);
-
-        // const id = localStorage.getItem("Marketfy_ActiveUser");
+        fetchData(url, (response)=>{
+            setDbData(response.data);
+            setFound(response.data.length);
+            setData(paginationArray(response.data.sort(()=>Math.random()-.5)))
+        });
 
         if (userId) {
-            console.log("auth")
             const url = `http://localhost:8080/productsInWishlistByUserId?id=${userId}`
-            fetchDataWishlist(url, setttt);
+            fetchDataWishlist(url, (response)=>{
+                if (Array.isArray(response.data)){
+                    setWishlistItems(response.data);
+                }
+            });
         }
 
     }, []);
 
-    function setttt(response){
-        if (Array.isArray(response.data)){
-            setWishlistItems(response.data);
-        }
-    }
-
-
-    function handleConsumedbData(response){
-        setDbData(response.data);
-        setFound(response.data.length);
-        setData(paginationArray(response.data.sort(()=>Math.random()-.5)))
-    }
-
-
+  
     /*because this is a small app, i will fetch all products data 
     and filter in the front. But if the data was extensive, i would 
     make requests depending on the search params. */
@@ -125,12 +115,12 @@ export default function Browse({modal}){
             <Pagination></Pagination>
 
 
-            <div style={{
-            borderStyle: "solid", 
-            display: "flex", 
-            flexWrap: "wrap", 
+            <div className="flex wrapp greyContainer rounded"
+            
+            style={{
             position:"relative", 
-            minHeight: "20vh"}}>
+            minHeight: "20vh", 
+            justifyContent:"space-around"}}>
 
                 {error ?
                     <Error></Error>  
@@ -171,7 +161,10 @@ export default function Browse({modal}){
                             <FontAwesomeIcon icon={regularHeart} />
                         </button>
                         }
-                        <button onClick={()=>navigate(`/products/${book.productId}`)}  >See More Details</button>
+
+                        <div>
+                            <button onClick={()=>navigate(`/products/${book.productId}`)}  >See More Details</button>
+                        </div>
 
                     </BrowseCard>
                     )
@@ -185,6 +178,8 @@ export default function Browse({modal}){
                 }
 
             </div>
+
+            <Pagination></Pagination>
 
 
         </>

@@ -13,40 +13,45 @@ export default function Pagination(){
     }, [data]);
 
     return (
-        <div>
-            <h4>Found: {found} Books.</h4>
-            <h4> Page: {page + 1} </h4>
+        <div className='pagination' >
 
-            <div>
-                {page > 0 ?
-                    <button 
-                        onClick={() => { setPage(page - 1) }} >
-                        <FontAwesomeIcon icon={faArrowLeft} />
-                    </button>
-                    :
-                    <button >
-                        <FontAwesomeIcon icon={faArrowLeft} />
-                    </button>
-                }
+            <p style={{margin:"0"}}>Found: {found} Books.</p>
+            <div className='flex'>
+                <p> Page: {page + 1} </p>
 
-                {
-                    pages.map((page) =>
-                        <button
-                            key={page}
-                            onClick={() => { setPage(page - 1) }}
-                            >{page}</button>
-                    )}
+                <div style={{margin:"0 3%"}} >
 
-                {page !== pages.length - 1 ?
-                    <button 
-                        onClick={() => { setPage(page + 1) }} >
-                        <FontAwesomeIcon icon={faArrowRight} />
-                    </button>
-                    :
-                    <button>
-                        <FontAwesomeIcon icon={faArrowRight} />
-                    </button>
-                }
+                    {page > 0 ?
+                        <button 
+                            onClick={() => { setPage(page - 1) }} >
+                            <FontAwesomeIcon icon={faArrowLeft} />
+                        </button>
+                        :
+                        <button >
+                            <FontAwesomeIcon icon={faArrowLeft} />
+                        </button>
+                    }
+
+                    {
+                        pages.map((page) =>
+                            <button
+                                key={page}
+                                onClick={() => { setPage(page - 1) }}
+                                >{page}</button>
+                        )}
+
+                    {page !== pages.length - 1 ?
+                        <button 
+                            onClick={() => { setPage(page + 1) }} >
+                            <FontAwesomeIcon icon={faArrowRight} />
+                        </button>
+                        :
+                        <button>
+                            <FontAwesomeIcon icon={faArrowRight} />
+                        </button>
+                    }
+                </div>
+
             </div>
 
         </div>

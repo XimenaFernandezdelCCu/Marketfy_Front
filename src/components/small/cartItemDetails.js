@@ -12,15 +12,18 @@ export default function CartbookDetails(){
     return (
         <ol>
         {completeBook.map((book, index)=>
-            <li 
-            style={{display:"flex", justifyContent:"space-evenly"}}
+            <li className="flex justifyEvenly wrapp"
             key={book.productId}>
 
                 <FontAwesomeIcon icon={faBookOpen}/>
-                <h4>{book.author}'s {book.title}</h4>
-                <h4>{book.price} $</h4>
+                <div className="right" >
+                    <h4>{book.author}'s {book.title}</h4>
+                </div>
+                
+                <h4>{book.price} $ each</h4>
 
-                <div style={{display:"flex"}}>
+                <div className="flex"
+                >
                     <button 
                     onClick={()=>{removeFromCart(book.productId, dispatch)}}
                     >-</button>
@@ -30,7 +33,7 @@ export default function CartbookDetails(){
                     >+</button>
                 </div>
                 
-                <h4>total :
+                <h4 >total :
                     {(book.price*book.qty).toFixed(2)} 
                 </h4>
 

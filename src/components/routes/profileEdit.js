@@ -81,7 +81,7 @@ export default function ProfileEdit() {
 
     return (
         <><h1>Edit</h1>
-            <div style={{ position: "relative" }} >
+            <div className="relative greyContainer rounded"  >
                 {error ?
                     <Error></Error>
                     :

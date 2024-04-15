@@ -34,7 +34,7 @@ export default function ProfileWishlist() {
         <>
             <h1>Wishlist</h1>
 
-            <div style={{position:"relative"}} >
+            <div className="relative"  >
                 {error?
                     <Error></Error>
                 :
@@ -45,9 +45,17 @@ export default function ProfileWishlist() {
                     <>
                     
                     {dbData.length > 0 ?
-                        <div style={{ display: "flex" }} >
+                        <div className="flex wrapp" >
                             {dbData.map((book, index) =>
-                                <div key={index}>
+                                <div key={index} className="greyContainer rounded"
+                                style={{
+                                    maxWidth: "25%",
+                                    minWidth: "300px", 
+                                    // maxHeight: "90vh",
+                                    margin: "1%",
+                                    // padding: "2%",
+                                }}
+                                >
                                     <button
                                         onClick={() => handleDeletefromWishlist(book.wishlistId, setDbData)}
                                     >
@@ -71,7 +79,7 @@ export default function ProfileWishlist() {
             </div>
 
             <h4>You can add books to this list in the
-                <Link to='/'>Shop</Link>. </h4>
+                <Link className="right link" to='/'>Shop</Link> </h4>
 
         </>
     )

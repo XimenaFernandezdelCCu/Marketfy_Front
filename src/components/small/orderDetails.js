@@ -9,19 +9,25 @@ export default function OrderDetails() {
 
 
     return (
-        <div>
+        <div className="greyContainer rounded m3" 
+        style={{ minWidth: "270px"}} >
+
             <h2>Order Details</h2>
             <ul>
-                <li>name's order</li>
+                {/* <li>name's order</li> */}
                 <li>{cartLength} Items:</li>
                 <li>
-                    {completeBook.map((book, index) =>
+                    {completeBook.map((book) =>
                         <div
-                            style={{ display: "flex", justifyContent: "space-evenly" }}
+                            className="flex justifyEvenly wrapp"
                             key={book.productId}>
 
-                            <FontAwesomeIcon icon={faBookOpen} />
-                            <p>{book.qty} Copies of: </p>
+                            <FontAwesomeIcon className="right" icon={faBookOpen} />
+                            {book.qty>1?
+                            <p >{book.qty} Copies of: </p>
+                            :
+                            <p >{book.qty} Copy of: </p>
+                            }
                             <p>{book.author}'s {book.title}</p>
                         </div>
                     )}

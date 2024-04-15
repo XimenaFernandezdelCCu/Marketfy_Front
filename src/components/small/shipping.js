@@ -5,8 +5,10 @@ import FormInput from "../reusable/formInput"
 
 export default function Shipping() {
     return (
-        <div>
-            <h4>Shipping Details</h4>
+        <div className="greyContainer rounded m3" 
+        style={{ minWidth: "270px"}} >
+
+            <h2>Shipping Details</h2>
             <FontAwesomeIcon icon={faHouseChimney} />
             <form>
                 <p>Credit / Debit Card</p>

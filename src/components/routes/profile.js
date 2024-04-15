@@ -3,6 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom"
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux"
+import avatar from '../../imgs/avatar.jpg'
 
 
 
@@ -22,15 +23,29 @@ export default function Profile(props){
 
     return (
         <div>
-            <div>
-                <h1>Avatar</h1>
-                <h1>Welcome {name}!</h1>
-                <ul>
-                    <li><Link to='/profile/' className="HeaderLink" >User Details</Link></li>
-                    <li><Link to='/profile/edit' className="HeaderLink" >Edit Profile</Link></li>
-                    <li><Link to='/profile/wishlist' className="HeaderLink" >Wishlist</Link></li>
-                    <li><Link to='/profile/orders' className="HeaderLink" >Order History</Link></li>
-                </ul>
+            <div >
+                <h1 className="title" >Welcome {name}!</h1>
+
+                <div className="flex justifyEvenly wrapp"> 
+                    <div className="m3"
+                    style={{
+                        height: "30vh"
+                        }} 
+                        > 
+                        <img style={{width:"auto", height:"100%", borderRadius: "50%"}}
+                        src={avatar} ></img>
+                    </div>
+
+                    <ul className="flex wrapp justifyEvenly"
+                    style={{minWidth:"50%"}} >
+
+                        <li className="right pillwhiteonOrange" ><Link to='/profile/' className="link" >User Details</Link></li>
+                        <li className="right pillwhiteonOrange"><Link to='/profile/edit' className="link" >Edit Profile</Link></li>
+                        <li className="right pillwhiteonOrange"><Link to='/profile/wishlist' className="link" >Wishlist</Link></li>
+                        <li className="right pillwhiteonOrange"><Link to='/profile/orders' className="link" >Order History</Link></li>
+
+                    </ul>
+                </div>
             </div>
             <div>
                 <Outlet/>

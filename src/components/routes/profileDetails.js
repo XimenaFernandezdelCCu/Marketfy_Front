@@ -56,7 +56,7 @@ export default function ProfileDetails(){
 
     return (
         <><h1>Details</h1>
-            <div style={{ position: "relative" }} >
+            <div className="relative greyContainer rounded" >
                 {error ?
                     <Error></Error>
                     :

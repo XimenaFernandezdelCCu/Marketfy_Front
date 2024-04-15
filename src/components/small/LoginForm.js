@@ -36,8 +36,8 @@ export default function LoginForm(){
 
   
     return (
-        <div>
-            <h3>Login</h3>
+        <div className='orangeBorderCard rounded p3' >
+            <h3 className='title' >Login</h3>
 
             <div style={{position:"relative"}}>
 
@@ -91,8 +91,8 @@ export default function LoginForm(){
 
             <div>
                 <p>
-                    <strong>Are you new here?</strong>
-                    <Link to='/auth/signup' className="HeaderLink" >Create an Account</Link>
+                    <strong className='right' >Are you new here?</strong>
+                    <Link to='/auth/signup' className="link" >Create an Account</Link>
                 </p>
 
             </div>

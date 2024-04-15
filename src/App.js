@@ -2,7 +2,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import React, { lazy, Suspense } from 'react';
 // Style 
-import './style/App.css';
+import './style/index.css';
 
 //Components: 
 import ContentWrap from './components/contentWrap';

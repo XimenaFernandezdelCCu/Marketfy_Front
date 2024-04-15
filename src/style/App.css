@@ -2,16 +2,17 @@
 /* header grey: #D9D9D9 */
 /* barely see beige: #F8F7F5 */
 
-/* Fonts */
-/* titles: Bowlby One */
-/* other: Mallanna */
-
-:root {
-  --title: "Bowlby One", sans-serif;
-  --text: "Mallanna", sans-serif;
+/* :root {
+  --title: "Bowlby One SC", sans-serif;
+  --text: "NTR", sans-serif;
   --headerGrey: #D9D9D9;
+  --barelyGrey: #D9D9D9;
   --orange: #cc8245;
   --green: #8eaf67;
+}
+
+.body{
+  margin: 0;
 }
 
 #root{
@@ -20,9 +21,13 @@
   min-height: 100vh;
   font-family: var(--text);
 }
+.title{
+  font-family: var(--title);
+}
 
 .content{
-  flex-grow: 1; 
+  flex-grow: 1;
+  padding: 3%; 
 }
 
 header, footer{
@@ -34,14 +39,89 @@ header, footer{
   background-color: var(--orange);
   position: absolute;
   right: 0;
-  top: 0;
+  top: 0; 
   z-index: 1;
-  width: 2vw;
-  height: 2vw;
+   width: 50%;
+ height: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2%;
+} */
+
+
+/* // ------------ Useful Classes  */
+/* .flex{
+  display: flex;
+  align-items: center;
+}
+.flexCol{
+  flex-direction: column;
+} 
+.justifyCenter{
+  justify-content: center;
+}
+.justifyEvenly{
+  justify-content:space-evenly;
+}
+.justifybetween{
+  justify-content: space-between;
+}
+.wrapp{
+  flex-wrap: wrap;
+}
+.noWwrapp{
+  flex-wrap: nowrap;
+}
+.rounded{
+  border-radius: 10px;
+}
+.relative{
+  position: relative;
+}
+.m3{
+  margin: 3%;
+}
+.p3{
+  padding: 3%;
+}
+.right{
+  margin: 0 3% 0 1%;
+} */
+
+/* containers */
+/* .pillOrangeContainer{
+  border-radius: 60px;
+  background-color: #cc8245;
+  margin-bottom: 3%;
 }
 
-/* // ------------ LOADING  */
+.pillwhiteonOrange{
+  border-radius: 60px;
+  border: solid #cc8245;
+  background-color: white;
+  padding: 0 2%;
+}
+
+.orangeBorderCard{
+  border: solid #cc8245;
+}
+.greyContainer{
+  background-color: #D9D9D9;
+  padding: 3%;
+} */
+
+/* ---------override */
+/* h5, h4{
+  margin: 0;
+}
+ol, ul, li{
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.link{
+  text-decoration: none;
+  color: #cc8245;
+  font-weight: bolder;
+} */
+

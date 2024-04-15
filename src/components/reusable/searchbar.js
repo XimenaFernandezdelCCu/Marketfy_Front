@@ -14,14 +14,15 @@ export default function Searchbar ({returnThis, radio}) {
     };
 
     return (
-        <div>
+        <div className='pillOrangeContainer'>
 
             <form
                 id="searchbar"
-                onSubmit={handleSearchbarInput}>
+                onSubmit={handleSearchbarInput}
+                className='flex wrapp justifyEvenly'>
 
                 {radio &&
-                <div>
+                <div className='flex wrapp'>
                     <p>Search By:</p>
                     <input name="searchBy" type='radio' id="radioTitle" value="title" defaultChecked></input>
                     <label htmlFor="radioTitle">Title</label>
@@ -32,15 +33,18 @@ export default function Searchbar ({returnThis, radio}) {
                 </div>
                 }
 
-                <input
-                    type="text"
-                    id="itemSearch" 
-                    name="searchText" 
-                    placeholder={`Search...`}
-                />
-                <button type="submit">
-                    <FontAwesomeIcon icon={faMagnifyingGlass} />
-                </button>
+                <div className='flex noWrapp' style={{minWidth:"50%", margin:"2%"}} >
+                    <input
+                        type="text"
+                        id="itemSearch" 
+                        name="searchText" 
+                        placeholder={`Search...`}
+                        style={{minWidth:"90%"}}
+                    />
+                    <button type="submit">
+                        <FontAwesomeIcon icon={faMagnifyingGlass} />
+                    </button>
+                </div>
             </form>
 
       </div>

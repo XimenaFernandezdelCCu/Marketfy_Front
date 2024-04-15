@@ -5,8 +5,10 @@ import FormInput from "../reusable/formInput"
 
 export default function Payment() {
     return (
-        <div>
-            <h4>Payment Method</h4>
+        <div className="greyContainer rounded m3" 
+        style={{ minWidth: "270px"}} >
+
+            <h2>Payment Method</h2>
             <FontAwesomeIcon icon={faCreditCard} />
             <form>
                 <p>Credit / Debit Card</p>
