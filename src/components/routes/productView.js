@@ -6,6 +6,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBookOpen, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import { add2Cart } from '../../utils/utils';
 import { useDispatch } from 'react-redux';
+import anonymousBook from '../../imgs/anonymousBook.jpg'
+
 
 
 export default function ProductView(){
@@ -25,9 +27,17 @@ export default function ProductView(){
         <>
         <button onClick={()=>navigate(`/`)}  >Back to shop</button>
         <h3>Product View</h3>
-        <div>
-            <div>
-                IMAGE
+        <div className='flex wrapp justifyEvenly greyContainer rounded '>
+
+            <div style={{width:"30%"}}>   
+                {/*---------- if product has image, display image, else, display placeholder */}
+                {data.image ?
+                    // <img src={`${book.image}`} style={{width:"100%"}} ></img>
+                    <p>DB Image</p>
+                    
+                :
+                    <img src={anonymousBook} style={{width:"100%"}} ></img>
+                }
             </div>
             <div>
                 <h1>{data.author}'s {data.title}</h1>

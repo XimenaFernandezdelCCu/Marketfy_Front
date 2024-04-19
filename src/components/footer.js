@@ -28,19 +28,7 @@ function Footer() {
                 }
             </div>
 
-            {/* <div className="flex justifyEvenly">
-                <div className="footer-section">
-                    <h3>Stay Connected</h3>
-                    <p>Follow us on social media</p>
-                </div>
-
-                <div className="footer-section">
-                    <h3>Subscribe to Newsletter</h3>
-                    <p>Stay updated with our latest offers and promotions</p>
-                </div>
-            </div> */}
-
-            <div className="footer-bottom">
+            <div>
                 <p>&copy; {new Date().getFullYear()} Marketfy Bookstore. All rights reserved.</p>
             </div>
         </footer>

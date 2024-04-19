@@ -1,8 +1,8 @@
 export default function Error ({ time }) {
     return (
-      <div
+      <div className="rounded"
       style={{
-        position: "absolute",
+        // position: "absolute",
         zIndex: "10",
         width: "100%",
         height: "100%",
@@ -13,7 +13,7 @@ export default function Error ({ time }) {
       }}
       >
        
-        <div>
+        <div className="p3 rounded">
             <h3>Our servers are down at the moment!</h3>
             <p>Please try again later.</p>
             <button onClick={()=>window.location.reload()} >Try Again</button>

@@ -6,7 +6,7 @@ export default function Modal (props) {
         id="Modal"
         onClick={props.closeModal} >
 
-            <div className="modal" >
+            <div className="modal flexCol p3" >
                 <button onClick={props.closeModal}>x</button>
 
                 {props.children}

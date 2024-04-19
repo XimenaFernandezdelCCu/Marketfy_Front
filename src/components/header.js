@@ -9,21 +9,16 @@ export default function Header(){
     const dispatch = useDispatch();
     const isAuthenticated = reduxAuth;
 
-
     return (
         <header className="flex wrapp p3 justifyCenter">
             <h1 className="title" >MARKETFY</h1>
 
             <div className="flex justifyEvenly" style={{width:"80%"}} >
-
-
                 <Link to='/' className="link" >Shop</Link>
 
-
-                <div className="relative">
-                    <Link to='/cart' className="link" >Cart</Link>
-                    {cartLength>0 && <div className="notification">{cartLength}</div>}
-
+                <div className="flex">
+                    <Link to='/cart' className="link right" >Cart</Link>
+                    {cartLength>0 && <div className="notification flex justifyCenter">{cartLength}</div>}
                 </div>
 
                 { isAuthenticated ?
@@ -36,9 +31,6 @@ export default function Header(){
                     <Link to='/auth' className="link" >Login</Link>
                     </>
                 }
-
-
-                
             </div>
         </header>
     )

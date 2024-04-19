@@ -71,24 +71,30 @@ export default function Cart() {
                     }
                     </>
                     }
+
+                    {cartLength > 0 &&
+                    <>
+                    {!checkout ? 
+                        <div className="flex justifyCenter m3" >
+
+                        <button className="pill"
+                        onClick={() => { setCheckout(true) }}
+                        >Checkout</button>
+                        </div>
+                        :
+                        <Checkout total={total} setCheckout={setCheckout} ></Checkout>
+                    }
                     </>
+                    }
+
+
+                    </>
+
                 }
 
             </div>
-            {cartLength > 0 &&
-            <>
-            {!checkout ? 
-                <div className="flex justifyCenter m3" >
 
-                <button className="pill"
-                onClick={() => { setCheckout(true) }}
-                >Checkout</button>
-                </div>
-                :
-                <Checkout total={total} setCheckout={setCheckout} ></Checkout>
-            }
-            </>
-            }
+            
 
 
 

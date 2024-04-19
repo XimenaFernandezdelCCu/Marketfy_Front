@@ -115,10 +115,8 @@ export default function Browse({modal}){
             <Pagination></Pagination>
 
 
-            <div className="flex wrapp greyContainer rounded"
-            
+            <div className="flex wrapp greyContainer rounded relative"
             style={{
-            position:"relative", 
             minHeight: "20vh", 
             justifyContent:"space-around"}}>
 
@@ -180,8 +178,6 @@ export default function Browse({modal}){
             </div>
 
             <Pagination></Pagination>
-
-
         </>
     )
 }
